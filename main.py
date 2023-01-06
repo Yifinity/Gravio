@@ -2,9 +2,11 @@ import time
 import pygame.time
 from pygame.locals import *
 from pygame import mixer
-# import sqlite3
+import sqlite3
 
 # This is for storage of high scores.
+
+
 pygame.init()
 
 # Screen Variables
