@@ -5,7 +5,10 @@ cursor = conn.cursor()
 
 # # cursor.execute('''CREATE TABLE IF NOT EXISTS scores ([score] INTEGER, [person] TEXT)''')
 # cursor.execute('''INSERT INTO scores VALUES (?,?)''', (50, 'Yifan'))
-# cursor.execute('''INSERT INTO scores VALUES (?,?)''', (80, 'Dennis'))
+# cursor.execute('''INSERT INTO scores VALUES (?,?)''', (77, 'Mike'))
+# cursor.execute('''INSERT INTO scores VALUES (?,?)''', (80, 'Elle'))
+# cursor.execute('''INSERT INTO scores VALUES (?,?)''', (21, 'June'))
+#
 #
 # conn.commit()
 

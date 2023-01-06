@@ -5,10 +5,11 @@ from pygame import mixer
 import sqlite3
 
 # This is for storage of high scores.
+conn = sqlite3.connect('GravioScores_database')
+cursor = conn.cursor()
 
 
 pygame.init()
-
 # Screen Variables
 introduction = True
 running = True
@@ -46,7 +47,7 @@ userScore = 0  # Default score - duh
 # Text Stuff
 pygame.font.init()  # initialize font
 font = pygame.font.Font('freesansbold.ttf', 32)
-
+scorefont = pygame.font.Font('freesansbold.ttf', 27)
 # Gravity variables
 gravity = 0  # Should start at zero.
 userGravity = 3
@@ -106,32 +107,46 @@ while running:
 
 mixer.music.stop()  # Stop Music
 
-# End stuff Create text
-# text = font.render('You lost; you\'re a loser! Score: ' + str(userScore), True, color_Dict["white"], color_Dict["backGround"])
-# Jacob wrote that ^
 
 scoreBoard = Rect(650, 400, 500, 500)  # Default rectangle
 scoreBoard.center = (650, 400)
 pygame.draw.rect(screen, color_Dict["backGround"], scoreBoard)
 
 text = font.render('Nice Try!', True, color_Dict["white"])
-score = font.render('Your Score: ' + str(userScore), True, color_Dict["white"])
-highScore = font.render('Top Scores: ' + str(userScore), True, color_Dict["white"])
+score = scorefont.render('Your Score: ' + str(userScore), True, color_Dict["white"])
+highScore = font.render('Top Scores: ', True, color_Dict["white"])
 
-textRect = text.get_rect()
-scoreRect = score.get_rect()
-highScoreRect = highScore.get_rect()
+cursor.execute('''SELECT * FROM scores ORDER BY score LIMIT 5''')
+scores = cursor.fetchall()
+# print(scores)
+# print(scores[1])
+# print(cursor.fetchall()[-1])
+firstPlace = scorefont.render(('1. ' + scores[4][1] + ": " + str(scores[4][0])), True, color_Dict["white"])
+secondPlace = scorefont.render(('2. ' + scores[3][1] + ": " + str(scores[3][0])), True, color_Dict["white"])
+thirdPlace = scorefont.render(('3. ' + scores[2][1] + ": " + str(scores[2][0])), True, color_Dict["white"])
+fourthPlace = scorefont.render(('4. ' + scores[1][1] + ": " + str(scores[1][0])), True, color_Dict["white"])
+fifthPlace = scorefont.render(('5. ' + scores[0][1] + ": " + str(scores[0][0])), True, color_Dict["white"])
 
-textRect.center = (scoreBoard.centerx, scoreBoard.top + 50)
-scoreRect.center = (scoreBoard.centerx, textRect.top + 60)
-highScoreRect.center = (scoreBoard.centerx, scoreRect.top + 100)
+# textRect = text.get_rect()
+# scoreRect = score.get_rect()
+# highScoreRect = highScore.get_rect()
 
-screen.blit(text, textRect)
-screen.blit(score, scoreRect)
-screen.blit(highScore, highScoreRect)
+# firstPlaceRect = firstPlace.get_rect()
+# secondPlaceRect = secondPlace.get_rect()
+# thirdPlaceRect = thirdPlace.get_rect()
+# fourthPlaceRect = fourthPlace.get_rect()
+# fifthPlaceRect = fifthPlace.get_rect()
 
+screen.blit(text, (scoreBoard.centerx - (text.get_width()//2), scoreBoard.top + 30))
+screen.blit(score, (scoreBoard.centerx - (score.get_width()//2), scoreBoard.top + 80))
+screen.blit(highScore, (scoreBoard.centerx - (highScore.get_width()//2), scoreBoard.top + 150))
+screen.blit(firstPlace, (scoreBoard.centerx - (firstPlace.get_width()//2), scoreBoard.top + 190))
+screen.blit(secondPlace, (scoreBoard.centerx - (secondPlace.get_width()//2), scoreBoard.top + 230))
+screen.blit(thirdPlace, (scoreBoard.centerx - (thirdPlace.get_width()//2), scoreBoard.top + 270))
+screen.blit(fourthPlace, (scoreBoard.centerx - (fourthPlace.get_width()//2), scoreBoard.top + 310))
+screen.blit(fifthPlace, (scoreBoard.centerx - (fifthPlace.get_width()//2), scoreBoard.top + 350))
 
 # Display the game over screen ... one last time.
 pygame.display.update()
-time.sleep(1.0)
+time.sleep(5.0)
 pygame.quit()
