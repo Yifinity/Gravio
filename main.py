@@ -112,16 +112,19 @@ def runGame():
 
 userEndScore = runGame()
 
+
 mixer.music.stop()  # Stop Music
+
+cursor.execute('''SELECT * FROM scores ORDER BY score LIMIT 5''')
+scores = cursor.fetchall()
+
+
 scoreBoard = Rect(650, 400, 500, 500)  # Default rectangle
 scoreBoard.center = (650, 400)
 pygame.draw.rect(screen, color_Dict["backGround"], scoreBoard)
 
 text = font.render('Nice Try!', True, color_Dict["white"])
 endscore = scorefont.render('Your Score: ' + str(userEndScore), True, color_Dict["white"])
-
-cursor.execute('''SELECT * FROM scores ORDER BY score LIMIT 5''')
-scores = cursor.fetchall()
 highScore = font.render('Top Scores: ', True, color_Dict["white"])
 
 # print(scores)
