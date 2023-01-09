@@ -6,7 +6,7 @@ import sqlite3
 
 # This is for storage of high scores.
 conn = sqlite3.connect('GravioScores_database')
-cursor = conn.cursor()
+cursor = conn.cursor() # Create cursor to get values from a database.
 
 
 pygame.init()
