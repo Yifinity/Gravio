@@ -13,8 +13,8 @@ pygame.init()
 # Screen Variables
 introduction = True
 
-FrameHeight = 800  # Screen height
-FrameWidth = 1300  # Screen width
+FrameHeight = 800
+FrameWidth = 1300
 screen = pygame.display.set_mode((FrameWidth, FrameHeight))
 pygame.display.set_caption("Grav-io")  # The name of the game!
 bg = pygame.image.load("customBackground.jpg")
