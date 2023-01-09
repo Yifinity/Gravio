@@ -36,8 +36,8 @@ mixer.music.load("twentyfive.mp3")
 mixer.music.set_volume(0.4)
 
 # User Definitions
-geoUserBig = pygame.image.load("customUser.png")  # Change here
-geoUser = pygame.transform.rotozoom(geoUserBig, 0, 0.75)
+geoUserBig = pygame.image.load("yifanChar.jpg")  # Change here
+geoUser = pygame.transform.rotozoom(geoUserBig, 0, 0.525)
 user = geoUser.get_rect()  # Creates a rectangular region - haha get rect
 user.center = 84, 350  # 116 - 136 on actual coordinates
 userXSpeed = 0  # Default Speeds are zero
