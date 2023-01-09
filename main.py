@@ -52,6 +52,9 @@ scorefont = pygame.font.Font('freesansbold.ttf', 27)
 
 mixer.music.play()
 print("Jared says 'Hello world!'")  # My friend made me write this - also confirmation that this is working
+# cursor.execute('''INSERT INTO highScores (score) VALUES (?)''', (50,))
+# conn.commit()
+
 
 def runGame():
     userGravity = 3
@@ -111,36 +114,36 @@ def runGame():
 
 
 userEndScore = runGame()
-
+# userEndScore = 85
 mixer.music.stop()  # Stop Music
-scoreBoard = Rect(650, 400, 500, 500)  # Default rectangle
+
+scoreBoard = Rect(650, 400, 500, 300)  # Default rectangle
 scoreBoard.center = (650, 400)
 pygame.draw.rect(screen, color_Dict["backGround"], scoreBoard)
 
-text = font.render('Nice Try!', True, color_Dict["white"])
+
 endscore = scorefont.render('Your Score: ' + str(userEndScore), True, color_Dict["white"])
 
-cursor.execute('''SELECT * FROM scores ORDER BY score LIMIT 5''')
+cursor.execute('''SELECT * FROM highScores ORDER BY score LIMIT 1''')
 scores = cursor.fetchall()
-highScore = font.render('Top Scores: ', True, color_Dict["white"])
 
-# print(scores)
-# print(scores[1])
-# print(cursor.fetchall()[-1])
-firstPlace = scorefont.render(('1. ' + scores[4][1] + ": " + str(scores[4][0])), True, color_Dict["white"])
-secondPlace = scorefont.render(('2. ' + scores[3][1] + ": " + str(scores[3][0])), True, color_Dict["white"])
-thirdPlace = scorefont.render(('3. ' + scores[2][1] + ": " + str(scores[2][0])), True, color_Dict["white"])
-fourthPlace = scorefont.render(('4. ' + scores[1][1] + ": " + str(scores[1][0])), True, color_Dict["white"])
-fifthPlace = scorefont.render(('5. ' + scores[0][1] + ": " + str(scores[0][0])), True, color_Dict["white"])
+if userEndScore > scores[0][0]: # If it beat the high score
+    print("HIGH SCORE!")
+    cursor.execute("""UPDATE highScores SET score = (?) WHERE score = (?)""", (userEndScore, scores[0][0]))  # Push rank down one (ex: change to rank 4 where rank = 3).
+    conn.commit()
+    # Now get the new score
+    cursor.execute('''SELECT * FROM highScores ORDER BY score LIMIT 1''')
+    scores = cursor.fetchall()
+    congrats = scorefont.render("NEW HIGH SCORE!", True, color_Dict["white"])
+    screen.blit(congrats, (scoreBoard.centerx - (congrats.get_width() // 2), scoreBoard.top + 30))
+else:
+    text = font.render('Nice Try!', True, color_Dict["white"])
+    screen.blit(text, (scoreBoard.centerx - (text.get_width() // 2), scoreBoard.top + 30))
 
-screen.blit(text, (scoreBoard.centerx - (text.get_width()//2), scoreBoard.top + 30))
-screen.blit(endscore, (scoreBoard.centerx - (endscore.get_width()//2), scoreBoard.top + 80))
-screen.blit(highScore, (scoreBoard.centerx - (highScore.get_width()//2), scoreBoard.top + 150))
-screen.blit(firstPlace, (scoreBoard.centerx - (firstPlace.get_width()//2), scoreBoard.top + 190))
-screen.blit(secondPlace, (scoreBoard.centerx - (secondPlace.get_width()//2), scoreBoard.top + 230))
-screen.blit(thirdPlace, (scoreBoard.centerx - (thirdPlace.get_width()//2), scoreBoard.top + 270))
-screen.blit(fourthPlace, (scoreBoard.centerx - (fourthPlace.get_width()//2), scoreBoard.top + 310))
-screen.blit(fifthPlace, (scoreBoard.centerx - (fifthPlace.get_width()//2), scoreBoard.top + 350))
+highScore = font.render('Top Score: ' + str(scores[0][0]), True, color_Dict["white"])
+
+screen.blit(endscore, (scoreBoard.centerx - (endscore.get_width()//2), scoreBoard.top + 105))
+screen.blit(highScore, (scoreBoard.centerx - (highScore.get_width()//2), scoreBoard.top + 155))
 
 # Display the game over screen ... one last time.
 pygame.display.update()
