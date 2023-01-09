@@ -6,15 +6,15 @@ import sqlite3
 
 # This is for storage of high scores.
 conn = sqlite3.connect('GravioScores_database')
-cursor = conn.cursor()
+cursor = conn.cursor() # Create cursor to get values from a database.
 
 
 pygame.init()
 # Screen Variables
 introduction = True
 
-FrameHeight = 800
-FrameWidth = 1300
+FrameHeight = 800  # Screen height
+FrameWidth = 1300  # Screen width
 screen = pygame.display.set_mode((FrameWidth, FrameHeight))
 pygame.display.set_caption("Grav-io")  # The name of the game!
 bg = pygame.image.load("customBackground.jpg")
