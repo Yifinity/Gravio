@@ -63,6 +63,7 @@ def runGame():
     scroll = 0
     userScore = 0  # Default score - duh
 
+    pressLock = False # lock the space key
     # Block Variables
     rectShape = Rect(0, 375, 500, 50)  # This should be a rectangle of 500 X 50
     rectX = 0  # The x speed of the rectangle.
@@ -87,6 +88,7 @@ def runGame():
         if rectShape.right < 0:  # When rectangle hits the end - the end of a level.
             rectShape = Rect(1250, 375, 1200, 40)
             userScore = userScore + 1  # Increase the score.
+            pressLock = False
         else:
             rectX = rectSpeed
 
@@ -99,8 +101,9 @@ def runGame():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE and not pressLock:
                     downUp *= -1  # Flip gravity
+                    pressLock = True # you can't move it now
                     # downUpHolder *= -1
         if user.bottom > FrameHeight or user.top < 0:
             running = not running
